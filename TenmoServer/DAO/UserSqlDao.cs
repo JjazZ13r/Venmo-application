@@ -154,6 +154,10 @@ namespace TenmoServer.DAO
         {
             User user = new User();
             //todo: (note from Lori) map the row returned by sql to the user object properties! Your code will not work without this part! 
+            user.UserId = Convert.ToInt32(reader["user_id"]);
+            user.Username = Convert.ToString(reader["username"]);
+            user.PasswordHash = Convert.ToString(reader["password_hash"]);
+            user.Salt = Convert.ToString(reader["salt"]);
             return user;
         }
     }
