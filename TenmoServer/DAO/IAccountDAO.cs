@@ -6,9 +6,9 @@ namespace TenmoServer.DAO
 {
     public interface IAccountDAO
     {
-        List<Account> GetAccounts();
+        IList<Account> GetAccounts();
         Account GetAccountById(int id);
-        Account CreateAccount(Account account);
+        //Account CreateAccount(Account account);
         decimal GetBalanceById(int id);
 
     }
