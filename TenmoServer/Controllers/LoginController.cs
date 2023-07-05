@@ -98,5 +98,10 @@ namespace TenmoServer.Controllers
 
             return result;
         }
+       //[HttpPut("{id}")]
+       //public IActionResult UpdateUserBalance(LoginUser userParam)
+       // {
+
+       // }
     }
 }
