@@ -71,9 +71,67 @@ namespace TenmoServer.DAO
             }
             catch(SqlException ex)
             {
-                throw new DaoException("SQL exception occurred", ex)
+                throw new DaoException("SQL exception occurred", ex);
             }
             return transfer;
+        }
+        public Transfer GetTransferByTransferId(int id)
+        {
+            Transfer transfer = null;
+
+            string sql = "SELECT * FROM transfer WHERE transfer_id = @transfer_id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@transfer_id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if(reader.Read())
+                    {
+                        transfer = MapRowToTransfer(reader);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL Exception Occurred", ex);
+            }
+            return transfer;
+        }
+        public Transfer CreateSendTransfer(int reciverUserId, Transfer transfer)
+        {
+            Transfer newTransfer = null;
+
+            string sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount)" +
+                         "OUTPUT INSERTED.transfer_id " +
+                         "VALUES (@transfer_type_id, @transfer_status_id, @account_from, @account_to, @amount)";
+            int newTransferId = 0;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@transfer_type_id", transfer.TransferTypeId);
+                    cmd.Parameters.AddWithValue("@transfer_status_id", transfer.TransferStatusId);
+                    cmd.Parameters.AddWithValue("@account_from", transfer.AccountFrom);
+                    cmd.Parameters.AddWithValue("@account_to", transfer.AccountTo);
+                    cmd.Parameters.AddWithValue("@amount", transfer.Amount);
+                    newTransferId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                }
+                newTransfer = GetTransferByTransferId(newTransferId);
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL Exception Occurred", ex);
+            }
+            return newTransfer;
         }
         private Transfer MapRowToTransfer(SqlDataReader reader)
         {
