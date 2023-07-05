@@ -151,9 +151,39 @@ namespace TenmoServer.DAO
         }
 
 
-        //public User GetBal(int id)
-        //{
+        public decimal GetBalByID(int id)
+        {
+            decimal balance = 0M;
+            string sql = "SELECT balance FROM account WHERE user_id = @id";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        balance = Convert.ToDecimal(reader["balance"]);
+                    }
+                }
+            }
+            catch (SqlException x)
+            {
 
+                throw new DaoException("SQL exception occurred", x);
+            }
+            return balance;
+        }
+        //public bool TransferTo(int fromnId, int toId, decimal transferAmt)
+        //{
+        //    if(transferAmt <= 0)
+        //    {
+        //        throw new DaoException("Transfer amount must be positive");
+        //    }
+        //    string sql = "UPDATE account SET balance = FULL JOIN transfer ON account WHERE account.account_id = transfer.account_from";
+            
         //}
 
         private User MapRowToUser(SqlDataReader reader)
