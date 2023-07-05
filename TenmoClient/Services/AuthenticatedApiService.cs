@@ -56,17 +56,17 @@ namespace TenmoClient.Services
 
         public ApiUser Login(LoginUser loginUser)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             //Note from Lori: this code here should work - take a look and compare it to what we did in lecture, then uncomment if it looks good! 
 
-            //RestRequest request = new RestRequest("login");
-            //request.AddJsonBody(loginUser);
-            //IRestResponse<ApiUser> response = client.Post<ApiUser>(request);
+            RestRequest request = new RestRequest("login");
+            request.AddJsonBody(loginUser);
+            IRestResponse<ApiUser> response = client.Post<ApiUser>(request);
 
-            //CheckForError(response);
-            //user = response.Data;
-            //client.Authenticator = new JwtAuthenticator(user.Token);
-            //return response.Data;
+            CheckForError(response);
+            user.Token = response.Data.Token;
+            client.Authenticator = new JwtAuthenticator(user.Token);
+            return response.Data;
         }
 
         public void Logout()
@@ -75,6 +75,7 @@ namespace TenmoClient.Services
             client.Authenticator = null;
         }
 
+        
         /// <summary>
         /// Checks RestSharp response for errors. If error, writes a log message and throws an exception 
         /// if the call was not successful. If no error, just returns to caller.
