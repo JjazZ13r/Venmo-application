@@ -8,6 +8,6 @@ namespace TenmoServer.DAO
         IList<Transfer> GetTransferByUserId(int id);
         Transfer GetTransferByStatus(int statusId);
         Transfer CreateSendTransfer(int receiverUserId);
-        Transfer CreateRequestTransfer(int senderUserId);
+        //Transfer CreateRequestTransfer(int senderUserId);
     }
 }
