@@ -46,8 +46,9 @@ namespace TenmoServer.DAO
             }
             return transfers;
         }
-        public Transfer GetTransferByStatus(int statusId)
+        public IList<Transfer> GetTransferByStatus(int statusId)
         {
+            List<Transfer> transfers = null;
             Transfer transfer = null;
 
             string sql = "SELECT transfer_id, transfer_type, transfer_status_id, account_from, account_to, amount " +
@@ -66,6 +67,7 @@ namespace TenmoServer.DAO
                     if (reader.Read())
                     {
                         transfer = MapRowToTransfer(reader);
+                        transfers.Add(transfer);
                     }
                 }
             }
@@ -73,7 +75,7 @@ namespace TenmoServer.DAO
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
-            return transfer;
+            return transfers;
         }
         public Transfer GetTransferByTransferId(int id)
         {
