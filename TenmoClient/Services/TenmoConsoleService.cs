@@ -51,13 +51,15 @@ namespace TenmoClient.Services
             return loginUser;
         }
 
-        public void DisplayBalance(Account account)
-        {
-            
-        }
+
 
         // Add application-specific UI methods here...
-
+        public void DisplayBalance(decimal balance)
+        {
+            Console.WriteLine($"Your balance is: {balance}");
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
+        }
 
     }
 }

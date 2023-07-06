@@ -16,11 +16,11 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public Account GetAccountById(int id)
+        public Account GetAccountByUserId(int id)
         {
             Account account = null;
 
-            string sql = "SELECT account_id FROM account WHERE user_id = @user_id";
+            string sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = @user_id";
 
             try
             {
