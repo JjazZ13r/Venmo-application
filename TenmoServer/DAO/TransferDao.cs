@@ -22,7 +22,7 @@ namespace TenmoServer.DAO
             List<Transfer> transfers = new List<Transfer>();
 
             string sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, " +
-                         "account_to, amount FROM transfer WHERE transfer_id = @tranfer_id";
+                         "account_to, amount FROM transfer WHERE transfer_id = @transfer_id";
 
             try
             {
@@ -49,10 +49,10 @@ namespace TenmoServer.DAO
 
         public List<Transfer> GetTransfersByStatus(int statusId)
         {
-            List<Transfer> transfers = null;
+            List<Transfer> transfers = new List<Transfer>();
             Transfer transfer = null;
 
-            string sql = "SELECT transfer_id, transfer_type, transfer_status_id, account_from, account_to, amount " +
+            string sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount FROM transfer " +
                          "WHERE transfer_status_id = @transfer_status_id";
 
             try
@@ -65,7 +65,7 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@transfer_status_id", statusId);
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         transfer = MapRowToTransfer(reader);
                         transfers.Add(transfer);
@@ -105,7 +105,7 @@ namespace TenmoServer.DAO
             }
             return transfer;
         }
-        public Transfer CreateSendTransfer(int reciverUserId, int senderUserId)
+        public Transfer CreateSendTransfer(int reciverUserId, int amount, Transfer transfer)
         {
             Transfer newTransfer = null;
 
