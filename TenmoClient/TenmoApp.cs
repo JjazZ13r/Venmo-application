@@ -158,5 +158,9 @@ namespace TenmoClient
             }
             console.Pause();
         }
+        private void CheckBalance()
+        {
+            
+        }
     }
 }
