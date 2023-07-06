@@ -46,7 +46,7 @@ namespace TenmoServer.Controllers
             }
         }
 
-        [HttpGet("tenmo_user/{id}")]
+        [HttpGet("transfer_status/{id}")]
         public ActionResult<List<Transfer>> GetTransferByStatus(int id)
         {
             IList<Transfer> transfers = dao.GetTransfersByStatus(id);
@@ -61,14 +61,15 @@ namespace TenmoServer.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Transfer> CreateSendTransfer(int recieverUserId, int senderUserId)
+        public ActionResult<Transfer> CreateSendTransfer(int recieverUserId, int amount, Transfer transfer)
         {
-            if(senderUserId == recieverUserId)
+            if(transfer.AccountFrom == recieverUserId)
             {
                 return Conflict();
             }
+            Transfer transfer1 = dao.CreateSendTransfer(recieverUserId, amount, transfer);
+            //if (transfer1.Amount > )
 
-            Transfer transfer1 = dao.CreateSendTransfer(recieverUserId, senderUserId);
             return Created($"/transfer/{transfer1.TransferId}", transfer1);
         }
 
