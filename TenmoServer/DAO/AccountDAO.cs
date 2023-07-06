@@ -72,7 +72,7 @@ namespace TenmoServer.DAO
             }
             return accounts;
         }
-        public decimal GetBalanceById(int id)
+        public decimal GetBalanceByUserId(int id)
         {
             decimal balance = 0M;
             string sql = "SELECT balance FROM account WHERE user_id = @user_id";
