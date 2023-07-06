@@ -46,7 +46,8 @@ namespace TenmoServer.DAO
             }
             return transfers;
         }
-        public IList<Transfer> GetTransferByStatus(int statusId)
+
+        public List<Transfer> GetTransfersByStatus(int statusId)
         {
             List<Transfer> transfers = null;
             Transfer transfer = null;
@@ -71,7 +72,7 @@ namespace TenmoServer.DAO
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 throw new DaoException("SQL exception occurred", ex);
             }

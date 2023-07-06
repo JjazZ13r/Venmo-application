@@ -52,7 +52,7 @@ namespace TenmoServer.DAO
         {
             User user = null;
 
-            string sql = "SELECT user_id, username, password_hash, salt FROM tenmo_user WHERE username = @username";
+            string sql = "SELECT * FROM tenmo_user WHERE username = @username";
 
             try
             {
