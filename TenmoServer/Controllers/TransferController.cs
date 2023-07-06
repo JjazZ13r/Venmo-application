@@ -10,7 +10,7 @@ namespace TenmoServer.Controllers
 
     [Route("[controller]")]
     [ApiController]
-    public class TransferController : Controller
+    public class TransferController : ControllerBase
     {
         private readonly ITransferDao dao;
         public TransferController(ITransferDao transferDao)
@@ -72,6 +72,5 @@ namespace TenmoServer.Controllers
 
             return Created($"/transfer/{transfer1.TransferId}", transfer1);
         }
-
     }
 }

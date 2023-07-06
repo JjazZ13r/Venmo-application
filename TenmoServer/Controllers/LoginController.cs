@@ -98,6 +98,19 @@ namespace TenmoServer.Controllers
 
             return result;
         }
+        [HttpGet()]
+        public ActionResult<User> GetUserByUsername(string username)
+        {
+            User user = userDao.GetUserByUsername(username);
+            if (user != null)
+            {
+                return Ok(username);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
        //[HttpPut("{id}")]
        //public IActionResult UpdateUserBalance(LoginUser userParam)
        // {

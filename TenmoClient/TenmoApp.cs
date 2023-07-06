@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TenmoClient.Models;
 using TenmoClient.Services;
 
@@ -73,7 +74,7 @@ namespace TenmoClient
 
             if (menuSelection == 1)
             {
-                // View your current balance
+                DisplayBalance();
             }
 
             if (menuSelection == 2)
@@ -158,9 +159,10 @@ namespace TenmoClient
             }
             console.Pause();
         }
-        private void CheckBalance()
+        private void DisplayBalance()
         {
-            
+            decimal balance = tenmoApiService.GetBalanceByUserId();
+            console.DisplayBalance(balance);
         }
     }
 }
