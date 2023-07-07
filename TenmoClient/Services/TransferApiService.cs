@@ -11,14 +11,14 @@ namespace TenmoClient.Services
     public class TransferApiService : AuthenticatedApiService
     {
         public readonly string ApiUrl;
-        protected static RestClient client = null;
+        //protected static RestClient client;
 
         public TransferApiService(string apiUrl) : base(apiUrl)
         {
-            if (client == null)
-            {
-                client = new RestClient(apiUrl);
-            }
+            //if (client == null)
+            //{
+            //    client = new RestClient(apiUrl);
+            //}
         }
     }
 }

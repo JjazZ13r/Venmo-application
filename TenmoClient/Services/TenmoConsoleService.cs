@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TenmoClient.Models;
+using TenmoServer.Models;
 
 namespace TenmoClient.Services
 {
@@ -61,5 +62,22 @@ namespace TenmoClient.Services
             Console.ReadLine();
         }
 
+
+        public void DisplayTransfersByUserId(List<ApiTransfer> transfers)
+        {
+
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Transfers");
+            Console.WriteLine("ID          From/To                 Amount");
+            Console.WriteLine("-------------------------------------------");
+
+            for (int i = 0; i < transfers.Count; i++)
+            {
+                Console.WriteLine($"{transfers[i].TransferId}          From: Bernice         $ {transfers[i].Amount}");
+            }
+            Console.WriteLine("\n");
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadLine();
+        }
     }
 }
