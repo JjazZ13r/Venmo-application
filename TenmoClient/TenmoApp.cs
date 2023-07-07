@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TenmoClient.Models;
 using TenmoClient.Services;
+using TenmoServer.Models;
 
 namespace TenmoClient
 {
@@ -79,7 +80,7 @@ namespace TenmoClient
 
             if (menuSelection == 2)
             {
-                // View your past transfers
+                DisplayTransfersbyUserId();
             }
 
             if (menuSelection == 3)
@@ -89,7 +90,7 @@ namespace TenmoClient
 
             if (menuSelection == 4)
             {
-                // Send TE bucks
+               
             }
 
             if (menuSelection == 5)
@@ -164,5 +165,12 @@ namespace TenmoClient
             decimal balance = tenmoApiService.GetBalanceByUserId();
             console.DisplayBalance(balance);
         }
+
+        private void DisplayTransfersbyUserId()
+        {
+            List<ApiTransfer> userTransfers = tenmoApiService.GetTransfersByUserId();
+            console.DisplayTransfersByUserId(userTransfers);
+        }
+
     }
 }

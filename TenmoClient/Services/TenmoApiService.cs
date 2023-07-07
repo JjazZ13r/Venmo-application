@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Reflection.Metadata;
 using TenmoClient.Models;
+using TenmoServer.Models;
 
 namespace TenmoClient.Services
 {
@@ -28,7 +29,7 @@ namespace TenmoClient.Services
             CheckForError(response);
             return response.Data;
         }
-        public ApiUser GetUserById(int id)
+        public ApiUser GetUserByUserId(int id)
         {
             RestRequest request = new RestRequest("id");
             IRestResponse<ApiUser> response = client.Get<ApiUser>(request);
@@ -53,6 +54,13 @@ namespace TenmoClient.Services
         {
             RestRequest request = new RestRequest("login");
             IRestResponse<ApiUser> response = client.Get<ApiUser>(request);
+            CheckForError(response);
+            return response.Data;
+        }
+        public List<ApiTransfer> GetTransfersByUserId()
+        {
+            RestRequest request = new RestRequest("transfer/user");
+            IRestResponse<List<ApiTransfer>> response = client.Get<List<ApiTransfer>>(request);
             CheckForError(response);
             return response.Data;
         }

@@ -17,19 +17,23 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public IList<Transfer> GetTransferByUserId(int id)
+        public IList<Transfer> GetTransfersByUserId(int id)
         {
             List<Transfer> transfers = new List<Transfer>();
 
-            string sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, " +
-                         "account_to, amount FROM transfer WHERE transfer_id = @transfer_id";
+            string sql = "SELECT t.transfer_id, t.transfer_type_id, t.transfer_status_id, t.account_from, t.account_to, t.amount " +
+                         "FROM transfer t " +
+                         "JOIN account a ON t.account_from = a.account_id OR t.account_to = a.account_id " +
+                         "WHERE a.user_id = @user_id";
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
+                    conn.Open();
+
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@transfer_id", id);
+                    cmd.Parameters.AddWithValue("@user_id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while(reader.Read())

@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using TenmoServer.DAO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using TenmoServer.DAO;
 using TenmoServer.Exceptions;
 using TenmoServer.Models;
 using TenmoServer.Security;
 
 namespace TenmoServer.Controllers
 {
-
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class TransferController : ControllerBase
@@ -21,6 +25,8 @@ namespace TenmoServer.Controllers
         [HttpGet("{id}")]
         public ActionResult<Transfer> GetTransferByTransferId(int id)
         {
+            int userId = int.Parse(User.FindFirst("sub")?.Value);
+            IList<Transfer> userTransfers = dao.GetTransfersByUserId(userId);
             Transfer transfer = dao.GetTransferByTransferId(id);
             if (transfer != null)
             {
@@ -32,10 +38,11 @@ namespace TenmoServer.Controllers
             }
         }
 
-        [HttpGet("tenmo_user/{id}")]
-        public ActionResult<List<Transfer>> GetTransferByUserId(int id)
+        [HttpGet("user")]
+        public ActionResult<List<Transfer>> GetTransfersByUserId()
         {
-            IList<Transfer> transfers = dao.GetTransferByUserId(id);
+            int userId = int.Parse(User.FindFirst("sub")?.Value);
+            IList<Transfer> transfers = dao.GetTransfersByUserId(userId);
             if (transfers != null)
             {
                 return Ok(transfers);
