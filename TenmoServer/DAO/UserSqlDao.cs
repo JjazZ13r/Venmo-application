@@ -179,7 +179,7 @@ namespace TenmoServer.DAO
         public User GetUserByAccountId(int id)
         {
             User newUser = null;
-            string sql = "SELECT user_id, username FROM tenmo_user " +
+            string sql = "SELECT user_id, username, password_hash, salt FROM tenmo_user " +
                          "WHERE user_id = (SELECT user_id FROM account WHERE account_id = @account_id);";
 
             try
@@ -195,6 +195,7 @@ namespace TenmoServer.DAO
                     if(reader.Read())
                     {
                         newUser = MapRowToUser(reader);
+
                     }
                 }
             }

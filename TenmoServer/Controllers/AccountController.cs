@@ -34,10 +34,23 @@ namespace TenmoServer.Controllers
             }
         }
         [HttpGet("user")]
-        public ActionResult<Account> GetAccountByUserId()
+        public ActionResult<Account> GetAccountByCurrentUserId()
         {
             int userId = int.Parse(User.FindFirst("sub")?.Value);
             Account account = dao.GetAccountByUserId(userId);
+            if(account != null)
+            {
+                return Ok(account);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet("user/{id}")]
+        public ActionResult<Account> GetAccountByUserId(int id)
+        {
+            Account account = dao.GetAccountByUserId(id);
             if(account != null)
             {
                 return Ok(account);

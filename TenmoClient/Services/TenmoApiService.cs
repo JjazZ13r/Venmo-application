@@ -24,7 +24,7 @@ namespace TenmoClient.Services
         // Add methods to call api here...
         public List<ApiUser> GetAllUsers()
         {
-            RestRequest request = new RestRequest("");
+            RestRequest request = new RestRequest("user");
             IRestResponse<List<ApiUser>> response = client.Get<List<ApiUser>>(request);
             CheckForError(response);
             return response.Data;
@@ -36,9 +36,16 @@ namespace TenmoClient.Services
             CheckForError(response);
             return response.Data;
         }
+        public Account GetAccountByCurrentUserId()
+        {
+            RestRequest request = new RestRequest($"account/user/");
+            IRestResponse<Account> response = client.Get<Account>(request);
+            CheckForError(response);
+            return response.Data;
+        }
         public Account GetAccountByUserId(int id)
         {
-            RestRequest request = new RestRequest("account/user/id");
+            RestRequest request = new RestRequest($"account/user/{id}");
             IRestResponse<Account> response = client.Get<Account>(request);
             CheckForError(response);
             return response.Data;
@@ -64,13 +71,22 @@ namespace TenmoClient.Services
             CheckForError(response);
             return response.Data;
         }
-        public List<User> GetUsersByAccountId(int id)
+        public User GetUserByAccountId(int id)
         {
-            RestRequest request = new RestRequest("user");
-            IRestResponse<List<User>> response = client.Get<List<User>>(request);
+            RestRequest request = new RestRequest($"user/account/{id}");
+            IRestResponse<User> response = client.Get<User>(request);
             CheckForError(response);
             return response.Data;
         }
+        public ApiTransfer CreateSendTransfer(ApiTransfer transfer)
+        {
+            RestRequest request = new RestRequest("transfer");
+            request.AddJsonBody(transfer);
+            IRestResponse<ApiTransfer> response = client.Post<ApiTransfer>(request);
+            CheckForError(response);
+            return response.Data;
+        }
+
 
         //public List<User> GetUsers()
         //{

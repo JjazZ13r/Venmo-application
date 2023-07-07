@@ -111,9 +111,9 @@ namespace TenmoServer.DAO
         }
         public Transfer CreateSendTransfer(int reciverUserId, int amount, Transfer transfer)
         {
-            Transfer newTransfer = null;
+            Transfer newTransfer = new Transfer();
 
-            string sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount)" +
+            string sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "OUTPUT INSERTED.transfer_id " +
                          "VALUES (@transfer_type_id, @transfer_status_id, @account_from, @account_to, @amount)";
             int newTransferId = 0;

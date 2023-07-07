@@ -11,6 +11,7 @@ namespace TenmoClient
     {
         private readonly TenmoConsoleService console = new TenmoConsoleService();
         private readonly TenmoApiService tenmoApiService;
+        private ApiUser loggedInUser;
 
         public TenmoApp(string apiUrl)
         {
@@ -90,7 +91,8 @@ namespace TenmoClient
 
             if (menuSelection == 4)
             {
-               
+                CreateSendTransfer();
+                console.PrintSuccess("Transfer successfully created and sent.");
             }
 
             if (menuSelection == 5)
@@ -102,6 +104,7 @@ namespace TenmoClient
             {
                 // Log out
                 tenmoApiService.Logout();
+                loggedInUser = null;
                 console.PrintSuccess("You are now logged out");
             }
 
@@ -125,6 +128,7 @@ namespace TenmoClient
                 }
                 else
                 {
+                    loggedInUser = user;
                     console.PrintSuccess("You are now logged in");
                 }
             }
@@ -169,7 +173,51 @@ namespace TenmoClient
         private void DisplayTransfersbyUserId()
         {
             List<ApiTransfer> userTransfers = tenmoApiService.GetTransfersByUserId();
-            console.DisplayTransfersByUserId(userTransfers);
+            Account currentUserAccount = tenmoApiService.GetAccountByUserId(tenmoApiService.UserId);
+            User transferUser = null;
+            bool isFrom = false;
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("Transfers");
+            Console.WriteLine("ID          From/To                 Amount");
+            Console.WriteLine("-------------------------------------------");
+            
+            foreach (ApiTransfer transfer in userTransfers)
+            {
+                
+                if (transfer.AccountFrom == currentUserAccount.AccountId)
+                {
+                    transferUser = GetUserByAccountId(transfer.AccountTo);
+                    isFrom = true;
+                }
+                else if (transfer.AccountTo == currentUserAccount.AccountId)
+                {
+                    transferUser = GetUserByAccountId(transfer.AccountFrom);
+                    isFrom = false;
+                }
+                console.DisplayTransfersByUserId(transfer, transferUser, isFrom);
+            }
+            console.Pause("Press enter to continue: ");
+        }
+
+        private User GetUserByAccountId(int id)
+        {
+            User user = tenmoApiService.GetUserByAccountId(id);
+            return user;
+        }
+        private ApiTransfer CreateSendTransfer()
+        {
+            console.DisplayAllUsers(tenmoApiService.GetAllUsers());
+            ApiTransfer transfer = new ApiTransfer();
+            int accountToSendTo = console.PromptForInteger("Id of the user your are sending to");
+            transfer.AccountTo = tenmoApiService.GetAccountByUserId(accountToSendTo).AccountId;
+            decimal amountToSend = console.PromptForDecimal("Enter amount to send");
+            transfer.Amount = amountToSend;
+            //Vince is poggers
+            transfer.AccountFrom = tenmoApiService.GetAccountByCurrentUserId().AccountId;
+            transfer.TransferStatusId = 2;
+            transfer.TransferTypeId = 2;
+            return tenmoApiService.CreateSendTransfer(transfer);
+            
         }
 
     }
