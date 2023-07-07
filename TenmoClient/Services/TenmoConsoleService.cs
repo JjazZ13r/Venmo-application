@@ -63,22 +63,31 @@ namespace TenmoClient.Services
         }
 
 
-        public void DisplayTransfersByUserId(List<ApiTransfer> transfers)
+        public void DisplayTransfersByUserId(ApiTransfer transfer, User user, bool isFrom)
         {
-
-            Console.WriteLine("-------------------------------------------");
-            Console.WriteLine("Transfers");
-            Console.WriteLine("ID          From/To                 Amount");
-            Console.WriteLine("-------------------------------------------");
-
-            foreach (ApiTransfer element in transfers)
+            if (isFrom == true)
             {
-                if (element.AccountFrom == element.TransferId)
-                Console.WriteLine($"{element.TransferId}          From: Brockasuars         $ {element.Amount}");
+                Console.WriteLine($"{transfer.TransferId}          To: {user.Username}         $ {transfer.Amount}");
+            }
+            else if (isFrom == false)
+            {
+                Console.WriteLine($"{transfer.TransferId}          From: {user.Username}         $ {transfer.Amount}");
             }
             Console.WriteLine("\n");
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadLine();
+
         }
+        public void DisplayAllUsers(List<ApiUser> users)
+        {
+            Console.WriteLine("|-------------- Users --------------|");
+            Console.WriteLine("|    Id | Username                  |");
+            Console.WriteLine("|-------+---------------------------|");
+            foreach(ApiUser element in users)
+            {
+                Console.WriteLine($"|  {element.UserId} | {element.Username}                   |");
+            }
+            Console.WriteLine("|-----------------------------------|");
+           
+        }
+
     }
 }

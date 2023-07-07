@@ -25,10 +25,15 @@ namespace TenmoServer.Controllers
         public ActionResult<IList<User>> GetUsers()
         {
             IList<User> users = new List<User>();
-            User user = null;
-
-            return Ok(userDao.GetUsers());
-
+            users = userDao.GetUsers();
+            if (users != null)
+            {
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
             //else if (username != "" && accountId != 0)
             //{
             //    user = userDao.GetUserByUsername(username);
