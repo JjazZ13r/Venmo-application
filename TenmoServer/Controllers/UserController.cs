@@ -1,0 +1,63 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
+using TenmoServer.DAO;
+using TenmoServer.Exceptions;
+using TenmoServer.Models;
+using TenmoServer.Security;
+
+namespace TenmoServer.Controllers
+{
+    [Route("[controller]")]
+    [ApiController]
+
+    public class UserController : Controller
+    {
+
+        private readonly IUserDao userDao;
+        public UserController(IUserDao userDao)
+        {
+            this.userDao = userDao;
+        }
+        [Authorize]
+        [HttpGet()]
+        public ActionResult<IList<User>> GetUsers()
+        {
+            IList<User> users = new List<User>();
+            User user = null;
+
+            return Ok(userDao.GetUsers());
+
+            //else if (username != "" && accountId != 0)
+            //{
+            //    user = userDao.GetUserByUsername(username);
+            //    users.Add(user);
+            //    return users;
+            //}
+            //else if(username == null && accountId != 0)
+            //{
+            //    user = userDao.GetUserByAccountId(accountId);
+            //    users.Add(user);
+            //    return users;
+            //}
+        }
+        [Authorize]
+        [HttpGet("account/{id}")]
+        public ActionResult<User> GetUserByAccountId(int id)
+        {
+            User user = null;
+            user = userDao.GetUserByAccountId(id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+    }
+}

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using TenmoServer.DAO;
 using TenmoServer.Exceptions;
 using TenmoServer.Models;
@@ -98,6 +100,7 @@ namespace TenmoServer.Controllers
 
             return result;
         }
+        [Authorize]
         [HttpGet()]
         public ActionResult<User> GetUserByUsername(string username)
         {
@@ -111,6 +114,7 @@ namespace TenmoServer.Controllers
                 return NotFound();
             }
         }
+
        //[HttpPut("{id}")]
        //public IActionResult UpdateUserBalance(LoginUser userParam)
        // {

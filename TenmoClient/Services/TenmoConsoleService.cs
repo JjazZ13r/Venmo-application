@@ -71,9 +71,10 @@ namespace TenmoClient.Services
             Console.WriteLine("ID          From/To                 Amount");
             Console.WriteLine("-------------------------------------------");
 
-            for (int i = 0; i < transfers.Count; i++)
+            foreach (ApiTransfer element in transfers)
             {
-                Console.WriteLine($"{transfers[i].TransferId}          From: Bernice         $ {transfers[i].Amount}");
+                if (element.AccountFrom == element.TransferId)
+                Console.WriteLine($"{element.TransferId}          From: Brockasuars         $ {element.Amount}");
             }
             Console.WriteLine("\n");
             Console.WriteLine("Press any key to continue.");

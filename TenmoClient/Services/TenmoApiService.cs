@@ -64,6 +64,18 @@ namespace TenmoClient.Services
             CheckForError(response);
             return response.Data;
         }
+        public List<User> GetUsersByAccountId(int id)
+        {
+            RestRequest request = new RestRequest("user");
+            IRestResponse<List<User>> response = client.Get<List<User>>(request);
+            CheckForError(response);
+            return response.Data;
+        }
+
+        //public List<User> GetUsers()
+        //{
+        //    RestRequest request = new RestRequest("")
+        //}
         //public ApiUser GetUserByUsername(string username)
         //{
         //    RestRequest request = new RestRequest("")
