@@ -64,13 +64,14 @@ namespace TenmoClient.Services
             CheckForError(response);
             return response.Data;
         }
-        public List<User> GetUserByAccountId(int id)
+        public List<User> GetUsersByAccountId(int id)
         {
-            RestRequest request = new RestRequest("user?");
+            RestRequest request = new RestRequest("user");
             IRestResponse<List<User>> response = client.Get<List<User>>(request);
             CheckForError(response);
             return response.Data;
         }
+
         //public List<User> GetUsers()
         //{
         //    RestRequest request = new RestRequest("")
