@@ -18,7 +18,7 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public User GetUserById(int userId)
+        public User GetUserByUserId(int userId)
         {
             User user = null;
 
@@ -140,7 +140,7 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@startBalance", StartingBalance);
                     cmd.ExecuteNonQuery();
                 }
-                newUser = GetUserById(newUserId);
+                newUser = GetUserByUserId(newUserId);
             }
             catch (SqlException ex)
             {
@@ -175,6 +175,34 @@ namespace TenmoServer.DAO
                 throw new DaoException("SQL exception occurred", x);
             }
             return balance;
+        }
+        public User GetUserByAccountId(int id)
+        {
+            User newUser = null;
+            string sql = "SELECT user_id, username FROM tenmo_user " +
+                         "WHERE user_id = (SELECT user_id FROM account WHERE account_id = @account_id);";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@account_id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if(reader.Read())
+                    {
+                        newUser = MapRowToUser(reader);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("There was a SQL exception", ex);
+            }
+            return newUser;
         }
         //public bool TransferTo(int fromnId, int toId, decimal transferAmt)
         //{
