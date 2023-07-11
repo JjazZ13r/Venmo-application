@@ -212,7 +212,6 @@ namespace TenmoClient
             transfer.AccountTo = tenmoApiService.GetAccountByUserId(accountToSendTo).AccountId;
             decimal amountToSend = console.PromptForDecimal("Enter amount to send");
             transfer.Amount = amountToSend;
-            //Vince is poggers
             transfer.AccountFrom = tenmoApiService.GetAccountByCurrentUserId().AccountId;
             transfer.TransferStatusId = 2;
             transfer.TransferTypeId = 2;
