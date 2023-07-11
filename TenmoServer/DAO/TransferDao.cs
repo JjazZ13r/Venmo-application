@@ -124,11 +124,11 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@transfer_type_id", newTransfer.TransferTypeId);
-                    cmd.Parameters.AddWithValue("@transfer_status_id", newTransfer.TransferStatusId);
-                    cmd.Parameters.AddWithValue("@account_from", newTransfer.AccountFrom);
-                    cmd.Parameters.AddWithValue("@account_to", newTransfer.AccountTo);
-                    cmd.Parameters.AddWithValue("@amount", newTransfer.Amount);
+                    cmd.Parameters.AddWithValue("@transfer_type_id", transfer.TransferTypeId);
+                    cmd.Parameters.AddWithValue("@transfer_status_id", transfer.TransferStatusId);
+                    cmd.Parameters.AddWithValue("@account_from", transfer.AccountFrom);
+                    cmd.Parameters.AddWithValue("@account_to", transfer.AccountTo);
+                    cmd.Parameters.AddWithValue("@amount", transfer.Amount);
                     newTransferId = Convert.ToInt32(cmd.ExecuteScalar());
 
                 }
